@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+/*
+ * Your Marketing AI design tokens.
+ * Raw palette lives in @theme so Tailwind generates utilities (bg-navy-900, text-brand-600 ...).
+ * Semantic roles (background, foreground, primary ...) map onto the palette and are what
+ * components should use. Contrast ratios are noted against the surface they are meant for.
+ */
+@theme {
+  /* Neutrals */
+  --color-white: #ffffff;
+  --color-paper: #f5f7fb; /* soft section background */
+  --color-paper-2: #eef2f8; /* inset panels, input fills */
+  --color-line: #e3e8f0; /* hairline borders */
+  --color-line-strong: #cbd3e1; /* input borders, dividers on paper */
+  --color-ink: #0b1220; /* body text: 18.7:1 on white */
+  --color-ink-muted: #5b6475; /* secondary text: 5.96:1 on white, 5.56:1 on paper */
+
+  /* Deep navy (dark sections) */
+  --color-navy-950: #050d24;
+  --color-navy-900: #0a1633; /* dark section bg */
+  --color-navy-800: #12224a; /* raised panels on navy */
+  --color-navy-700: #1c2f5e; /* borders on navy */
+  --color-navy-300: #a9b6cf; /* muted text on navy: 8.7:1 */
+
+  /* Electric blue (actions and interactive accents) */
+  --color-brand-50: #eef3ff;
+  --color-brand-100: #dde7ff;
+  --color-brand-200: #bccfff;
+  --color-brand-300: #8eb4ff; /* text/links on navy: 8.6:1 */
+  --color-brand-400: #4d7bff; /* icons/large text on navy: 4.8:1 */
+  --color-brand-500: #1f4fff; /* primary button bg, white text 5.8:1 */
+  --color-brand-600: #1a44e0; /* hover, links on white: 7.1:1 */
+  --color-brand-700: #1536b3;
+
+  /* Functional (diagrams only) */
+  --color-success: #12a150;
+  --color-warning: #c27803;
+
+  /* Type */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+
+  /* Editorial type scale (fluid). Line-heights and tracking tuned per step. */
+  --text-display: clamp(2.375rem, 1.5rem + 4.4vw, 5.25rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(1.875rem, 1.4rem + 1.9vw, 2.875rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.015em;
+  --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.14em;
+
+  /* Radius: one scale, used consistently */
+  --radius-xs: 6px; /* chips inside cards */
+  --radius-sm: 10px; /* inputs, buttons */
+  --radius-md: 14px; /* cards */
+  --radius-lg: 20px; /* feature panels */
+  --radius-xl: 28px; /* hero visual, CTA band */
+
+  /* Shadows: low and cool, tinted with navy */
+  --shadow-xs: 0 1px 2px rgb(10 22 51 / 0.06);
+  --shadow-sm: 0 1px 2px rgb(10 22 51 / 0.06), 0 2px 8px -2px rgb(10 22 51 / 0.08);
+  --shadow-md: 0 2px 4px rgb(10 22 51 / 0.04), 0 12px 32px -8px rgb(10 22 51 / 0.14);
+  --shadow-lg: 0 4px 8px rgb(10 22 51 / 0.04), 0 32px 64px -16px rgb(10 22 51 / 0.22);
+  --shadow-glow: 0 0 0 1px rgb(31 79 255 / 0.25), 0 8px 24px -6px rgb(31 79 255 / 0.45);
+
+  /* Containers */
+  --container-prose: 42rem;
+  --container-content: 72rem;
+  --container-wide: 80rem;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-pulse-dot: pulse-dot 2s var(--ease-out-expo) infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes pulse-dot {
+    0% {
+      box-shadow: 0 0 0 0 rgb(18 161 80 / 0.45);
+    }
+    70%,
+    100% {
+      box-shadow: 0 0 0 8px rgb(18 161 80 / 0);
+    }
+  }
+}
+
+/* Semantic roles */
+:root {
+  --background: var(--color-white);
+  --foreground: var(--color-ink);
+  --muted: var(--color-ink-muted);
+  --primary: var(--color-brand-500);
+  --primary-hover: var(--color-brand-600);
+  --ring: var(--color-brand-500);
+  --section-y: clamp(4.5rem, 3rem + 6vw, 8rem);
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2rem);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  /* One focus indicator everywhere: 2px brand ring with offset, visible on white and navy. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--color-brand-300);
+  }
+  ::selection {
+    background: var(--color-brand-200);
+    color: var(--color-navy-900);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@utility container-site {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--container-wide);
+  padding-inline: var(--gutter);
+}
+
+@utility section-y {
+  padding-block: var(--section-y);
+}
+
+/* Subtle blueprint grid used behind hero visuals. */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(10 22 51 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(10 22 51 / 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+@utility bg-grid-dark {
+  background-image:
+    linear-gradient(to right, rgb(142 180 255 / 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(142 180 255 / 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
