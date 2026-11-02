@@ -1,0 +1,7 @@
+# intermediate render artefacts
+**/out/segments/
+**/out/video_noaudio.mp4
+**/out/mix_pre.wav
+**/out/mix.wav
+**/out/render.log
+__pycache__/
